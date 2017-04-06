@@ -8,7 +8,7 @@
       "env": {
         "NODE_PATH": "./src",
         "NODE_ENV": "integration",
-        "PORT": 4000,
+        "PORT": 5000,
         "IMG": "S3",
         "SOLR": "DEV",
         "APIHOST": "https://api.test-abroadwith.com",

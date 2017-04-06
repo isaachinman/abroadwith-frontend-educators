@@ -9,7 +9,7 @@
       "env": {
         "NODE_PATH": "./src",
         "NODE_ENV": "production",
-        "PORT": 4000,
+        "PORT": 5000,
         "IMG": "IMGIX",
         "SOLR": "PROD",
         "APIHOST": "https://api.abroadwith.com",
