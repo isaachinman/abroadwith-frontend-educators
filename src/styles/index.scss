@@ -1,0 +1,711 @@
+/**
+* Override Bootstrap styles that you can't modify via variables here.
+*
+*/
+
+//  The gradient animation mixin
+//  The most up to date version can be found here:
+//  https://gist.github.com/himynameisdave/32e51f5ff4780ae2104d
+@mixin gradient-animation( $start, $end, $transTime ){
+  background-size: 100%;
+  background-image: linear-gradient($start, $end);
+  position: relative;
+  z-index: 100;
+  &:before {
+    background-image: linear-gradient($end, $start);
+    content: '';
+    display: block;
+    height: 100%;
+    position: absolute;
+    top: 0; left: 0;
+    opacity: 0;
+    width: 100%;
+    z-index: -100;
+    transition: opacity $transTime;
+  }
+  &:hover {
+     &:before {
+       opacity: 1;
+     }
+  }
+}
+
+// Angled edges mixin
+@import "./angled-edges/angled-edges.scss";
+
+// Search page styles
+.gm-style-cc {
+  display: none;
+}
+
+// Extend Bootstrap panel
+.panel {
+  box-shadow: 5px 5px 13px 0 rgba(0,0,0,0.15);
+}
+.panel-group[role=tablist] {
+  .panel {
+    box-shadow: none;
+  }
+}
+
+// React Bootstrap Character Counter
+@import "../react-bootstrap-character-counter/react-bootstrap-character-counter.scss";
+
+// Reactable styles
+.reactable-pagination {
+  td {
+    padding: 15px 0 0 0 !important;
+  }
+}
+.reactable-page-button, .reactable-previous-page, .reactable-next-page {
+  font-size: 15px;
+  padding: 5px 10px;
+  margin: 0;
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  &:first-child {
+    border-radius: 5px 0 0 5px;
+    border-left: 1px solid #ddd;
+  }
+  &:last-child {
+    border-radius: 0 5px 5px 0;
+  }
+}
+.reactable-current-page {
+  background-color: #5533FF;
+  color: white;
+  &:focus {
+    color: white;
+    text-decoration: none;
+  }
+}
+.reactable-filterer {
+  td {
+    padding: 0 0 10px 0 !important;
+  }
+}
+.reactable-filter-input {
+  @extend .form-control;
+  max-width: 260px;
+  float: right;
+}
+table {
+  max-width: 100%;
+}
+// Big breakpoint
+@media (max-width: 700px) {
+  td.location-column, .reactable-th-dates-\&-location {
+    display: none;
+  }
+}
+// Small breakpoint
+@media (max-width: 400px) {
+  img.reservation-table-guest-img {
+    display: none !important;
+  }
+  td.status-column, .reactable-th-status, .reservation-more-details {
+    display: none;
+  }
+}
+
+// BigCalendar custom styles
+.rbc-row {
+  cursor: cell;
+  .rbc-date-cell {
+    cursor: default;
+  }
+}
+.rbc-day-bg {
+  cursor: cell;
+  &.rbc-day-past {
+    cursor: not-allowed;
+    background: #eee;
+  }
+}
+
+$bodyTextColor: #404041;
+
+.row {
+  margin-bottom: 22px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+.home-photo-thumbnail {
+  .thumbnail {
+    position: relative;
+  }
+  img {
+    height: 160px;
+  }
+  .info {
+    min-height: 22px;
+    margin-top: 5px;
+  }
+}
+
+// React Image Crop
+@import './react-crop/react-crop.scss';
+
+// Ant Design imports
+@import '../ant-design/ant-design.scss';
+
+// Big calendar imports
+@import '../react-big-calendar/react-big-calendar.scss';
+
+// Multiselect imports
+@import './bootstrap-multiselect.css';
+
+// Slider imports
+@import './rc-slider.css';
+
+// Telephone input imports
+@import 'src/styles/react-telephone-input/react-telephone-input.scss';
+
+// React dates imports
+@import '../react-dates/react-dates.scss';
+
+// Main content theming
+body {
+  background: $backgroundGreyLight;
+}
+
+// Fonts
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  color: $bodyTextColor !important;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Heebo', sans-serif;
+}
+h1 {
+  font-size: 48px;
+  line-height: 56px;
+}
+h2 {
+  font-size: 42px;
+  line-height: 52px;
+}
+h3 {
+  font-size: 36px;
+  line-height: 48px;
+}
+h4 {
+  font-size: 30px;
+  line-height: 42px;
+}
+h5 {
+  font-size: 22px;
+  line-height: 32px;
+}
+h6 {
+  font-size: 18px;
+  line-height: 24px;
+}
+a {
+  cursor: pointer;
+}
+p {
+  line-height: 22px;
+  span {
+    display: inline-block; // Necessary for react-generated markup
+  }
+}
+.header-pink {
+  color: $headerPink;
+}
+.header-blue {
+  color: $headerBluePurple;
+}
+.header-green {
+  color: $headerGreen;
+}
+.header-saturated-purple {
+  color: $saturatedPurple;
+}
+.header-warm-purple {
+  color: $warmPurple;
+}
+
+// Custom AirBnb Datepicker styles
+.DayPicker__week-header, .CalendarMonth__caption {
+ -webkit-user-select: none; /* Chrome/Safari */
+ -moz-user-select: none; /* Firefox */
+ -ms-user-select: none; /* IE10+ */
+}
+// End custom AirBnb Datepicker styles
+
+
+@media (min-width: 768px) {
+ .modal-sm {
+   width: 340px;
+ }
+}
+
+// Buttons
+button {
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+// Navbar
+.navbar-toggle {
+  border: none;
+}
+.navbar-collapse {
+  background: white;
+  height: calc(100vh - 80px);
+  max-height: calc(100vh - 80px) !important;
+}
+.navbar-default .navbar-nav > li > a {
+  color: $darkBlue;
+  &:hover {
+    color: $saturatedPurple;
+  }
+}
+.navbar-fixed-top {
+  background-color: white;
+  margin-bottom: 0;
+  height: 80px;
+  ul.navbar-nav > li > a {
+    padding-top: 29px;
+    padding-bottom: 28px;
+  }
+}
+.navbar-brand {
+  height: 79px;
+  line-height: 79px;
+  padding: 0;
+  position: relative;
+  padding-right: 60px;
+}
+
+span.input-group-addon .fa {
+  width: 14px;
+}
+
+.btn-with-icon {
+  .fa {
+    position: absolute;
+    top: 7.5px;
+    left: 25px;
+    font-size: 30px;
+  }
+}
+
+.btn-facebook-login {
+  font-size: 16px;
+  text-align: left;
+  text-indent: 40px;
+  margin-bottom: 15px;
+  .fa {
+    text-indent: 0;
+    color: lighten(#3b5998, 10%);
+  }
+
+}
+
+.btn-google-login {
+  font-size: 16px;
+  text-align: left;
+  text-indent: 40px;
+  .fa {
+    text-indent: 0;
+    color: lighten(#dd4b39, 5%);
+  }
+}
+
+.panel-heading {
+  position: relative;
+  min-height: 40px;
+}
+.panel-title a {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  line-height: 40px;
+  text-indent: 20px;
+  user-select: none;
+  &:hover {
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+
+// Inbox styling
+#inbox {
+  ul.nav-stacked {
+    li + li {
+      cursor: 'pointer';
+      margin-top: 0;
+    }
+    a {
+      padding: 15px 35px;
+      border-radius: 0;
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+      }
+    }
+  }
+}
+
+// Dropzone styling
+.dropzone-img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+// Homestay map s
+$homestay-popover-bg: $darkBlue;
+$homestay-popover-arrow-color: $darkBlue;
+.homestay-map-marker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: $zindex-popover;
+  display: none;
+  max-width: $popover-max-width;
+  padding: 1px;
+  // Our parent element can be arbitrary since popovers are by default inserted as a sibling of their target element.
+  // So reset our font and text properties to avoid inheriting weird values.
+  @include reset-text;
+  font-size: $font-size-base;
+
+  background-color: $homestay-popover-bg;
+  &--hovered {
+    background-color: $freshGreen;
+  }
+  color: white;
+  background-clip: padding-box;
+  border: 1px solid $popover-fallback-border-color;
+  border: 1px solid $popover-border-color;
+  border-radius: 3px;
+  @include box-shadow(0 5px 10px rgba(0,0,0,.2));
+
+  // Offset the popover to account for the popover arrow
+  &.top     { margin-top: -$popover-arrow-width; }
+  &.right   { margin-left: $popover-arrow-width; }
+  &.bottom  { margin-top: $popover-arrow-width; }
+  &.left    { margin-left: -$popover-arrow-width; }
+}
+
+// Arrows
+//
+// .arrow is outer, .arrow:after is inner
+.homestay-map-marker > .arrow {
+  &,
+  &:after {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+  }
+}
+.homestay-map-marker > .arrow {
+  border-width: $popover-arrow-outer-width;
+}
+.homestay-map-marker > .arrow:after {
+  border-width: $popover-arrow-width;
+  content: "";
+}
+
+.homestay-map-marker {
+  cursor: pointer;
+  &.small-result {
+    padding: 0;
+    background-color: white;
+    z-index: 1062;
+    border: none;
+    .homestay-map-marker-content {
+      padding: 0;
+      width: 250px;
+    }
+    .arrow:after {
+      border-top-color: white !important;
+    }
+  }
+  &.hovered {
+    z-index: 1061;
+    background-color: $headerGreen;
+    .arrow:after {
+      border-top-color: $headerGreen !important;
+    }
+  }
+  &.top > .arrow {
+    left: 50%;
+    margin-left: -$popover-arrow-outer-width;
+    border-bottom-width: 0;
+    border-top-color: $popover-arrow-outer-fallback-color; // IE8 fallback
+    border-top-color: $popover-arrow-outer-color;
+    bottom: -$popover-arrow-outer-width;
+    &:after {
+      content: " ";
+      bottom: 2px;
+      margin-left: -$popover-arrow-width;
+      border-bottom-width: 0;
+      border-top-color: $homestay-popover-arrow-color;
+    }
+  }
+}
+
+// Course map results
+.course-map-marker {
+  @extend .homestay-map-marker;
+  background-color: $warmPurple;
+  &.hovered {
+    z-index: 1061;
+    background-color: $headerGreen;
+    .arrow:after {
+      border-top-color: $headerGreen !important;
+    }
+  }
+  &.top > .arrow {
+    &:after {
+      border-top-color: $warmPurple;
+    }
+  }
+}
+
+// Search results
+.result-second-child-margin {
+  @media (min-width: 992px) {
+    &:nth-child(even) {
+      margin-left: 20px;
+    }
+  }
+  .carousel-control {
+    z-index: 56;
+  }
+  &.course {
+    &:hover {
+      .hover-stripe {
+        background: $babyBlue;
+      }
+    }
+  }
+  &:hover {
+    .hover-stripe {
+      background: $freshGreen;
+    }
+    .bottom-half {
+      border-bottom: 1px solid $freshGreen;
+    }
+  }
+  .hover-stripe {
+    height: 5px;
+  }
+}
+.small-result {
+  .carousel-control {
+    z-index: 101;
+  }
+}
+
+// Featured homestay hover effect
+.featured-homestay {
+  h6.title {
+    transition: color .15s ease-in;
+  }
+  &:hover {
+    h6.title {
+      color: $saturatedPurple;
+    }
+  }
+}
+
+// Immersion tags
+.immersion-tag {
+  display: inline;
+  margin-right: 4px;
+  padding: 2px 4px;
+  font-size: 10px;
+  line-height: 1;
+  background: rgba(0,0,0,.085);
+  text-align: center;
+  vertical-align: baseline;
+  border-radius: .25em;
+  &.large {
+    font-size: 12px;
+  }
+}
+
+// Course info tag
+.course-info-tag {
+  @extend .immersion-tag;
+  font-size: 12px;
+}
+
+// Search result rating
+.small-rating-wrapper {
+  .ant-rate {
+    font-size: 12px;
+  }
+  .ant-rate-star {
+    margin-right: 1px;
+  }
+  .ant-rate-star-half .ant-rate-star-content:before, .ant-rate-star-full:before {
+    font-size: 12px;
+    color: $headerBluePurple;
+  }
+  &.light {
+    .ant-rate-star-half .ant-rate-star-content:before, .ant-rate-star-full:before {
+      color: $babyBlue;
+    }
+  }
+  .ant-rate-star:before, .ant-rate-star-content:before {
+    font-size: 12px;
+  }
+}
+
+// Homestay review section rate
+.homestay-review-display-section {
+  .ant-rate {
+    font-size: 16px;
+  }
+  .ant-rate-star {
+    margin-right: 1px;
+  }
+  .ant-rate-star-half .ant-rate-star-content:before, .ant-rate-star-full:before {
+    font-size: 16px;
+    color: $freshGreen;
+  }
+  .ant-rate-star:before, .ant-rate-star-content:before {
+    font-size: 16px;
+  }
+}
+
+// Form control static overflow
+.form-control-static {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// Immersion select homestay search
+#immersion-selection-homestay-search {
+  .popover-content {
+    padding: 0;
+  }
+}
+
+// Badges
+.badge {
+  margin-right: 4px;
+}
+
+// Dropzone
+.basic-dropzone {
+  cursor: pointer;
+  width: 100%;
+  min-height: 140px;
+  border: 2px dashed lighten($babyBlue, 10%);
+  border-radius: 5px;
+  padding: 15px;
+  background: repeating-linear-gradient(135deg, #fafafa, #fafafa 10px, #EDEDED 10px, #EDEDED 20px);
+}
+
+// Pager
+.pager {
+  user-select: none;
+}
+#homestay-booking-flow-container, #course-booking-flow-container {
+  ul.pager li.next {
+    a {
+      background: $freshGreen;
+      border-color: $headerGreen;
+      color: white;
+    }
+    &.disabled {
+      a {
+        pointer-events: all !important;
+        cursor: not-allowed;
+        background: rgba(0,0,0,.3);
+        border-color: rgba(0,0,0,.1);
+      }
+    }
+  }
+  .react-selectize.bootstrap3 {
+    .react-selectize-control {
+      border-color: #ddd !important;
+    }
+  }
+}
+
+// React Selectize placeholder
+.react-selectize {
+  .simple-value {
+    color: $bodyTextColor !important;
+  }
+  .simple-option {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .react-selectize-placeholder {
+    color: $bodyTextColor !important;
+  }
+}
+
+// Extend bootstrap dropdowns
+.dropdown-menu {
+  li {
+    height: 50px;
+    display: table;
+    width: 100%;
+    a {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+}
+
+select.form-control option{
+  color: $bodyTextColor;
+}
+
+.display-linebreak {
+  white-space: pre-line;
+}
+
+.reactable-header-sortable {
+  &:hover {
+    background: rgba(0,0,0,0.075);
+  }
+}
+
+// Course landing page
+.popular-city-panel-course-landing-page {
+  .panel-body {
+    padding: 0;
+  }
+}
+
+// Masonry grid
+.masonry-grid {
+  list-style: none;
+  margin: 0 auto 60px auto;
+  -webkit-padding-start: 0px;
+  transition: opacity 2s;
+  min-height: 500px;
+}
+
+// School profile page
+.school-profile-page-header {
+  background: $headerGreen;
+  @include angled-edge('outside bottom','lower right', $headerGreen, 60);
+}
+#school-profile-page-tabs {
+  .nav-tabs > li:not(.active) > a {
+    background: #eee;
+    border: 1px solid #DFDFDF;
+  }
+}

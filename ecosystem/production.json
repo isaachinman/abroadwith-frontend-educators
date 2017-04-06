@@ -1,0 +1,20 @@
+{
+  "apps": [
+    {
+      "name": "edu-platform",
+      "script": "./bin/server.js",
+      "instances": 4,
+      "exec_mode": "cluster",
+      "min_uptime" : "120s",
+      "env": {
+        "NODE_PATH": "./src",
+        "NODE_ENV": "production",
+        "PORT": 4000,
+        "IMG": "IMGIX",
+        "SOLR": "PROD",
+        "APIHOST": "https://api.abroadwith.com",
+        "APIPORT": 443
+      }
+    }
+  ]
+}

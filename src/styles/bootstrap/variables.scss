@@ -1,0 +1,35 @@
+// Theme colours
+$darkBlue: #32325D;
+$darkGrey: #404041;
+$headerGreen: #24B47E;
+$freshGreen: #3ECF8E;
+$headerPink: #F6A4EB;
+$warmPurple: #9251AC;
+$headerBluePurple: #5A65DB;
+$saturatedPurple: #5533FF;
+$mintGreen: #A6FFCB;
+$sunsetOrange: #FC5050;
+
+// Background colours
+$backgroundGreyLight: #fafafa;
+$babyBlue: #6FA8EF;
+
+// Immersion colours
+$stayColor: #F7A4EC;
+$tandemColor: #5533FF;
+$teacherColor: #3ECF8E;
+
+// Bootstrap Variables
+$brand-primary: $headerBluePurple;
+$brand-secondary: lighten($darkBlue, 2%);
+$brand-success: $freshGreen;
+$brand-warning: lighten($sunsetOrange, 5%);
+$brand-danger: darken($sunsetOrange, 10%);
+$brand-info: $darkGrey;
+
+$text-color: $darkGrey;
+
+$font-size-base: 16px;
+$font-family-sans-serif: "Karla", sans-serif;
+
+$input-border-focus: $babyBlue;

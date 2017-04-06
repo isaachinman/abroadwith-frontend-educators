@@ -1,0 +1,21 @@
+{
+  "pending": [
+    "PENDING"
+  ],
+  "declined": [
+    "DECLINED_BY_STUDENT",
+    "DECLINED_BY_EDUCATOR",
+    "DECLINED_AUTOMATICALLY"
+  ],
+  "cancelled": [
+    "CANCELLED_BY_STUDENT",
+    "CANCELLED_BY_EDUCATOR"
+  ],
+  "approved": [
+    "APPROVED",
+    "PAID_OUT"
+  ],
+  "archived": [
+    "ARCHIVED"
+  ]
+}

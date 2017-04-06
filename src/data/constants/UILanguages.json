@@ -1,0 +1,20 @@
+{
+    "en": {
+      "name": "English",
+      "iso": "ENG",
+      "iso2": "en",
+      "basepath": "/"
+    },
+    "es": {
+      "name": "Español",
+      "iso": "SPA",
+      "iso2": "es",
+      "basepath": "/es/"
+    },
+    "de": {
+      "name": "Deutsch",
+      "iso": "DEU",
+      "iso2": "de",
+      "basepath": "/de/"
+    }
+}

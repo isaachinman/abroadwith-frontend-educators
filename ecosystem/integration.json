@@ -1,0 +1,19 @@
+{
+  "apps": [
+    {
+      "name": "edu-platform",
+      "script": "./bin/server.js",
+      "instances": 1,
+      "exec_mode": "cluster",
+      "env": {
+        "NODE_PATH": "./src",
+        "NODE_ENV": "integration",
+        "PORT": 4000,
+        "IMG": "S3",
+        "SOLR": "DEV",
+        "APIHOST": "https://api.test-abroadwith.com",
+        "APIPORT": 443
+      }
+    }
+  ]
+}

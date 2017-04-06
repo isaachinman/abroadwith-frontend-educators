@@ -1,0 +1,1 @@
+export pulseOpposite from './pulseOpposite'
