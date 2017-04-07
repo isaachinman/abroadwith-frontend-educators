@@ -19,7 +19,6 @@ import styles from './Navbar.styles'
   token: state.auth.token,
   modals: state.ui.modals,
 }))
-
 @Radium
 export default class Navbar extends Component {
 

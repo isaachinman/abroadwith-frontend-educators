@@ -136,7 +136,7 @@ export function load(jwt) {
 
 }
 
-export function login(email, password, facebookToken, googleToken, callback) {
+export function login(email, password, callback) {
 
   const cb = typeof callback === 'function' ? callback : () => {}
 
@@ -146,23 +146,12 @@ export function login(email, password, facebookToken, googleToken, callback) {
 
     try {
 
-      const request = superagent.post(`${config.apiHost}/users/login`)
+      const request = superagent.post(`${config.apiHost}/educators/login`)
 
-      // Determine what sort of login to perform
       if (email && password) {
         request.send({
           email,
           password,
-        })
-      } else if (email && facebookToken) {
-        request.send({
-          email,
-          facebookToken,
-        })
-      } else if (email && googleToken) {
-        request.send({
-          email,
-          googleToken,
         })
       }
 
