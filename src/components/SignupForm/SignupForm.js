@@ -68,6 +68,14 @@ export default class SignupForm extends Component {
 
   }
 
+  getValidationState(field) {
+    if (!Object.keys(this.state.formErrors).length) {
+      return null
+    }
+
+    return this.state.formErrors[field] ? 'error' : 'success'
+  }
+
   handleAddressValueChange = (field, value) => {
     const newAddress = this.state.values.address
     newAddress[field] = value
@@ -88,7 +96,7 @@ export default class SignupForm extends Component {
     const stateValue = this.state.values[field]
     const fieldValidations = {
       userName: ((value) => {
-        return value !== null && value.length <= 3 
+        return value !== null && value.length <= 3
       })(stateValue),
     }
 
@@ -137,14 +145,6 @@ export default class SignupForm extends Component {
         }
       })
 
-  }
-
-  getValidationState(field) {
-    if (!Object.keys(this.state.formErrors).length) {
-      return null
-    }
-
-    return this.state.formErrors[field] ? 'error' : 'success'
   }
 
   render() {
