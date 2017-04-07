@@ -7,6 +7,7 @@ import { isLoaded as isAuthLoaded } from 'redux/modules/auth'
 import {
     App,
     Main,
+    SignupPage,
   } from 'containers'
 
 export default (store) => {
@@ -69,6 +70,8 @@ export default (store) => {
           {/* Put logged-in routes here */}
           {/* EXAMPLE: <Route path='settings' getComponent={getSettings} /> */}
         </Route>
+
+        <Route path='/signup' component={SignupPage} />
 
       </Route>
 

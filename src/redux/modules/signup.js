@@ -1,16 +1,15 @@
-import config from 'config.js'
+import config from 'config'
 import superagent from 'superagent'
-import { login, facebookLogin, googleLogin } from 'redux/modules/auth'
-import { openVerifyEmailSentModal } from 'redux/modules/ui/modals'
 
-// Login stuff
-const SIGNUP = 'abroadwith/SIGNUP'
-const SIGNUP_SUCCESS = 'abroadwith/SIGNUP_SUCCESS'
-const SIGNUP_FAIL = 'abroadwith/SIGNUP_FAIL'
+// Signup actions
+const SIGNUP = 'abroadwith-educators/SIGNUP'
+const SIGNUP_SUCCESS = 'abroadwith-educators/SIGNUP_SUCCESS'
+const SIGNUP_FAIL = 'abroadwith-educators/SIGNUP_FAIL'
 
 const initialState = {
   loading: false,
   loaded: false,
+  error: null,
 }
 
 export default function reducer(state = initialState, action = {}) {
@@ -31,17 +30,14 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         loading: false,
         loaded: false,
-        error: true,
-        errorMessage: action.err,
+        error: action.error,
       }
     default:
       return state
   }
 }
 
-export function signup(type, signupObject, googleToken, callback) {
-
-  const cb = typeof callback === 'function' ? callback : () => {}
+export function signup(signupObject) {
 
   return async dispatch => {
 
@@ -49,42 +45,21 @@ export function signup(type, signupObject, googleToken, callback) {
 
     try {
 
-      // Validate request
-      if (!['HOST', 'STUDENT'].includes(signupObject.type)) {
-        throw new Error('userType is invalid')
-      }
+      const request = superagent.post(`${config.apiHost}/educators`)
+      request.send(signupObject)
 
-      const { email, password, facebookToken, googleId } = signupObject // eslint-disable-line
-
-      const request = superagent.post(`${config.apiHost}/users`).send(signupObject).withCredentials()
-
-      request.end(err => {
+      request.end((err, res) => {
 
         if (err) {
 
-          dispatch({ type: SIGNUP_FAIL, err })
+          dispatch({ type: SIGNUP_FAIL, error: err })
 
         } else {
 
-          // Signup was success
-          dispatch({ type: SIGNUP_SUCCESS })
-          cb()
-
-          // Log the user in
-          if (type === 'email') {
-            dispatch(login(email, password))
-          } else if (type === 'facebook') {
-            dispatch(facebookLogin(email, facebookToken))
-          } else if (type === 'google') {
-            dispatch(googleLogin(email, googleToken))
-          }
-
-          // Open email verification sent modal
-          dispatch(openVerifyEmailSentModal())
-
+          // Request was successful
+          dispatch({ type: SIGNUP_SUCCESS, result: res })
 
         }
-
 
       })
 
@@ -92,4 +67,5 @@ export function signup(type, signupObject, googleToken, callback) {
       dispatch({ type: SIGNUP_FAIL, err })
     }
   }
+
 }

@@ -5,3 +5,4 @@
 
 export App from './App/App'
 export Main from './Main/Main'
+export SignupPage from './SignupPage/SignupPage'

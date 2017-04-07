@@ -2,6 +2,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { IndexLink } from 'react-router'
+import { LinkContainer } from 'react-router-bootstrap'
 import { Login, Logo } from 'components'
 import { Modal, Navbar as BootstrapNavbar, Nav, NavItem } from 'react-bootstrap'
 import { logout } from 'redux/modules/auth'
@@ -58,7 +59,9 @@ export default class Navbar extends Component {
             {!jwt &&
               <span style={styles.desktopNavbar}>
                 <Nav navbar pullRight>
-                  <NavItem>Sign up</NavItem>
+                  <LinkContainer to='/signup'>
+                    <NavItem>Sign up</NavItem>
+                  </LinkContainer>
                   <NavItem onClick={() => this.props.dispatch(openLoginModal())}>Log in</NavItem>
                 </Nav>
               </span>
@@ -77,7 +80,9 @@ export default class Navbar extends Component {
             {!jwt &&
               <span style={styles.mobileNavbar}>
                 <Nav>
-                  <NavItem>Sign up</NavItem>
+                  <LinkContainer to='/signup'>
+                    <NavItem>Sign up</NavItem>
+                  </LinkContainer>
                   <NavItem onClick={() => this.props.dispatch(openLoginModal())}>Log in</NavItem>
                 </Nav>
               </span>
