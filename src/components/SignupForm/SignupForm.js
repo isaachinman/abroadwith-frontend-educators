@@ -21,6 +21,7 @@ export default class SignupForm extends Component {
 
   state = {
     formIsValid: false,
+    formErrors: {},
     values: {
       userName: null,
       schoolName: null,
@@ -76,7 +77,22 @@ export default class SignupForm extends Component {
   handleValueChange = (field, value) => {
     const newValues = this.state.values
     newValues[field] = value
-    this.setState({ values: newValues })
+
+    this.setState({
+      values: newValues,
+      formErrors: Object.assign({}, this.state.formErrors, this.handleInputValidation(field)),
+    })
+  }
+
+  handleInputValidation(field) {
+    const stateValue = this.state.values[field]
+    const fieldValidations = {
+      userName: ((value) => {
+        return value !== null && value.length <= 3 
+      })(stateValue),
+    }
+
+    return fieldValidations[field] && { [field]: fieldValidations[field] }
   }
 
   handleSignup = () => {
@@ -123,6 +139,14 @@ export default class SignupForm extends Component {
 
   }
 
+  getValidationState(field) {
+    if (!Object.keys(this.state.formErrors).length) {
+      return null
+    }
+
+    return this.state.formErrors[field] ? 'error' : 'success'
+  }
+
   render() {
 
     const { signupStatus } = this.props
@@ -134,9 +158,7 @@ export default class SignupForm extends Component {
       )
     })
 
-    console.log(availableLanguages)
-
-    console.log(this)
+    console.log(this.state.formErrors)
 
     return (
       <SpinLoader show={signupStatus.loading}>
@@ -164,6 +186,7 @@ export default class SignupForm extends Component {
               <Col xs={12} sm={6}>
                 <FormGroup
                   controlId='username'
+                  validationState={this.getValidationState('userName')}
                 >
                   <ControlLabel>Username*</ControlLabel>
                   <FormControl
