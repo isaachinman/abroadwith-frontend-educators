@@ -1,5 +1,8 @@
 Dashboard (ManageStudents) Page
 
+  Endpoints:
+    https://api.test-abroadwith.com/swagger/index.html#/course_bookings
+
   Requirements:
     -Three tabs (Incoming, Current, Past)
     -Filterable by student name

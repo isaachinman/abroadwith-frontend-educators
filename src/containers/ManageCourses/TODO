@@ -1,5 +1,8 @@
 Manage Courses Page
 
+  Endpoints:
+    https://api.test-abroadwith.com/swagger/index.html#/courses
+
   Requirements:
     -Create new course form
     -Edit/delete every existing course
