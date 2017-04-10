@@ -45,6 +45,11 @@ export default (store) => {
       cb(null, require('../containers/TermsAndConditions/TermsAndConditions'))
     }, 'terms')
   }
+  const getPrivacyPolicy = (nextState, cb) => {
+    require.ensure([], require => {
+      cb(null, require('../containers/PrivacyPolicy/PrivacyPolicy'))
+    }, 'privacy')
+  }
 
 
   // --------------------------------------------------------------------------------
@@ -71,6 +76,7 @@ export default (store) => {
 
         <Route path='/signup' component={SignupPage} />
         <Route path='/terms' getComponent={getTermsAndConditions} />
+        <Route path='/privacy' getComponent={getPrivacyPolicy} />
 
       </Route>
 
