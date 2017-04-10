@@ -1,0 +1,7 @@
+Manage Courses Page
+
+  Requirements:
+    -Create new course form
+    -Edit/delete every existing course
+    -Validate lowest level against highest level
+    -Validate recurrence against course length
