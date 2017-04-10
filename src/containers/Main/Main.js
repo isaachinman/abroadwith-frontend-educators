@@ -143,8 +143,8 @@ export default class Main extends Component {
               </Col>
             </Row>
           </Grid>
-          <div style={{ paddingTop: 50, marginBottom: -20 }} />
-          <BackgroundColorBlock color={babyBlue} minHeight={240} />
+          <div style={{ paddingTop: 20, marginBottom: -50 }} />
+          <BackgroundColorBlock color={babyBlue} minHeight={260} />
         </div>
 
       </div>

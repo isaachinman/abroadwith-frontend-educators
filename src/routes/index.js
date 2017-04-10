@@ -40,13 +40,11 @@ export default (store) => {
   // without program flow analysis. These getComponent functions only contain
   // the require.ensure statement, so we are stuck writing them all explicitly.
   // --------------------------------------------------------------------------------
-
-  // EXAMPLE:
-  // const getBookCourse = (nextState, cb) => {
-  //   require.ensure([], require => {
-  //     cb(null, require('../containers/BookCourse/BookCourse'))
-  //   }, 'booking-course')
-  // }
+  const getTermsAndConditions = (nextState, cb) => {
+    require.ensure([], require => {
+      cb(null, require('../containers/TermsAndConditions/TermsAndConditions'))
+    }, 'terms')
+  }
 
 
   // --------------------------------------------------------------------------------
@@ -72,6 +70,7 @@ export default (store) => {
         </Route>
 
         <Route path='/signup' component={SignupPage} />
+        <Route path='/terms' getComponent={getTermsAndConditions} />
 
       </Route>
 

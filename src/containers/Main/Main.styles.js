@@ -13,14 +13,15 @@ export default {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(${config.img}/app/hero/hero_educator_homepage.jpg)`,
+    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(${config.img}/app/hero/hero_v2_educator_homepage.jpg)`,
     '@media (max-width: 1000px)': {
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(${config.img}/app/hero/hero_educator_homepage.jpg?w=1000)`,
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(${config.img}/app/hero/hero_v2_educator_homepage.jpg?w=1000)`,
     },
     '@media (max-width: 600px)': {
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(${config.img}/app/hero/hero_educator_homepage.jpg?w=600)`,
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(${config.img}/app/hero/hero_v2_educator_homepage.jpg?w=600)`,
     },
     backgroundSize: 'cover',
+    backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundColor: darkBlue,
     '@media (max-width: 515px)': {
@@ -39,7 +40,7 @@ export default {
   heroTextContent: {
     maxWidth: 600,
     margin: '0 auto',
-    textShadow: '1px 2px 2px rgba(0, 0, 0, .2)',
+    textShadow: '1px 2px 2px rgba(0, 0, 0, .3)',
   },
   heroInputRow: {
     position: 'absolute',
@@ -56,6 +57,7 @@ export default {
   },
   paddedGrid: {
     padding: '30px 15px 40px 15px',
+    marginBottom: 50,
   },
   stepImg: {
     maxWidth: '100%',
