@@ -204,6 +204,7 @@
       "import/no-extraneous-dependencies": 0,
       "padded-blocks": 0,
       "import/no-unresolved": 0,
+      "no-prototype-builtins": 0,
       "react/jsx-first-prop-new-line": [
         0,
         "never"

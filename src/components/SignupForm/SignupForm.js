@@ -9,14 +9,37 @@ import { signup } from 'redux/modules/signup'
 import { SpinLoader } from 'components'
 import { push } from 'react-router-redux'
 import { Typeahead } from 'react-bootstrap-typeahead'
+import { validatePassword } from 'utils/validation'
+import isEmail from 'validator/lib/isEmail'
+import FormInput from './subcomponents/FormInput'
 
 // Styles
 import styles from './SignupForm.styles'
+
+const fieldValidations = {
+  userName: (value) => value.length > 3,
+  password: (value) => validatePassword(value).valid,
+  schoolName: (value) => value.length > 1,
+  schoolEmail: (value) => isEmail(value),
+  schoolPhoneNumber: (value) => value.length > 6,
+  contactPersonFirstName: (value) => value.length > 2,
+  contactPersonLastName: (value) => value.length > 2,
+  contactPersonEmail: (value) => isEmail(value),
+  contactPersonPhoneNumber: (value) => value.length > 6,
+  offeredLanguages: (value) => value.length > 0,
+  street: (value) => value.length > 4,
+  city: (value) => value.length > 2,
+  zipCode: (value) => value.length > 4,
+  state: (value) => value.length > 3,
+  country: (value) => value.length === 2,
+}
+
 
 @connect(state => ({
   auth: state.auth,
   signupStatus: state.signupStatus,
 }))
+
 export default class SignupForm extends Component {
 
   state = {
@@ -68,39 +91,66 @@ export default class SignupForm extends Component {
 
   }
 
+  /**
+  * Check if the object has object children and returns a plain object
+  * @param {Object} obj - Object to be transformed
+  */
+  transformObject(obj) {
+    const objectKey = obj && Object.keys(obj)
+      .find(item => this.isObject(obj[item]))
+
+    return objectKey ? Object.assign({}, obj, obj[objectKey]) : obj
+  }
+
+  /**
+  * Check if the passed value is an array
+  * @param {Object} val
+  */
+  isObject(val) {
+    return val === Object(val) && !Array.isArray(val) && val !== null
+  }
+
   getValidationState(field) {
-    if (!Object.keys(this.state.formErrors).length) {
+    const { formErrors, values } = this.state
+    const newValues = this.transformObject(values)
+
+    if (!Object.keys(formErrors).length || newValues[field] === null || formErrors[field] === undefined) {
       return null
     }
 
-    return this.state.formErrors[field] ? 'error' : 'success'
+    return formErrors.hasOwnProperty(field) && formErrors[field] === true ? 'error' : 'success'
   }
 
   handleAddressValueChange = (field, value) => {
     const newAddress = this.state.values.address
     newAddress[field] = value
-    this.handleValueChange('address', newAddress)
+    this.handleValueChange('address', newAddress, { childValue: field })
   }
 
-  handleValueChange = (field, value) => {
+  handleValueChange = (field, value, params) => {
     const newValues = this.state.values
     newValues[field] = value
 
+    let input = params && params.childValue ? params.childValue : field
+
+    console.log(this.handleInputValidation(input), input)
     this.setState({
       values: newValues,
-      formErrors: Object.assign({}, this.state.formErrors, this.handleInputValidation(field)),
+      formErrors: Object.assign(
+        {},
+        this.state.formErrors,
+        this.handleInputValidation(input)
+      ),
     })
   }
 
-  handleInputValidation(field) {
-    const stateValue = this.state.values[field]
-    const fieldValidations = {
-      userName: ((value) => {
-        return value !== null && value.length <= 3
-      })(stateValue),
-    }
+  handleInputValidation(field, values = this.state.values) {
+    // Check if there is some transformObject inside the values and store its key
+    const newValues = this.transformObject(values)
 
-    return fieldValidations[field] && { [field]: fieldValidations[field] }
+    return fieldValidations.hasOwnProperty(field)
+      && newValues[field] !== null
+      && { [field]: !fieldValidations[field](newValues[field]) }
   }
 
   handleSignup = () => {
@@ -147,10 +197,35 @@ export default class SignupForm extends Component {
 
   }
 
-  render() {
+  /**
+  * Render a form input
+  *
+  * @param {Object[]} fields - List of fields to be rendered.
+  * @param {object} fields[].props - Properties to be passed to the element
+  * @param {string} fields[].props.id - Key to bind the field to the state
+  * @param {string} fields[].props.label - Label to be shown in the element
+  * @param {string} fields[].props.type - Input's type
+  * @param {object} fields[].customInput - a custom input to be passed as children
+  * @param {object} fields[].props - any property needed for the custom input rendering
+  */
+  renderFields(fields) {
+    const { values } = this.state
 
-    const { signupStatus } = this.props
+    return fields.map((input, idx) =>
+      <Col key={idx} xs={12} sm={6}>
+        <FormInput
+          value={values[input.props.id] && typeof values[input.props.id] === 'string' ? values[input.props.id] : ''}
+          onChange={event => this.handleValueChange(input.props.id, event.target.value)}
+          validationState={this.getValidationState(input.props.id)}
+          {...input.props}
+        >
+          { input.customInput && <input.customInput.element {...input.customInput.props} /> }
+        </FormInput>
+      </Col>
+    )
+  }
 
+  renderContactFields() {
     const { values } = this.state
     const availableLanguages = Object.keys(UserLanguages).map(lang => {
       return (
@@ -158,7 +233,124 @@ export default class SignupForm extends Component {
       )
     })
 
-    console.log(this.state.formErrors)
+    const fields = [
+      {
+        props: {
+          id: 'contactPersonFirstName',
+          label: 'Contact Person First Name',
+        },
+      },
+      {
+        props: {
+          id: 'contactPersonLastName',
+          label: 'Contact Person Last Name',
+        },
+      },
+      {
+        props: {
+          id: 'contactPersonEmail',
+          label: 'Contact Person Email',
+        },
+      },
+      {
+        props: {
+          id: 'contactPersonPhoneNumber',
+          label: 'Contact Person Phone',
+        },
+        customInput: {
+          element: ReactTelInput,
+          props: {
+            flagsImagePath: 'https://abroadwith.imgix.net/app/flags/flags.png',
+            onChange: value => this.handleValueChange('contactPersonPhoneNumber', value),
+          },
+        },
+      },
+      {
+        props: {
+          id: 'offeredLanguages',
+          label: 'Offered Languages',
+          notRequired: true,
+        },
+        customInput: {
+          element: Typeahead,
+          props: {
+            multiple: true,
+            selected: values.offeredLanguages ? values.offeredLanguages : [],
+            onChange: data => this.handleValueChange('offeredLanguages', data),
+            options: availableLanguages,
+          },
+        },
+      },
+      {
+        props: {
+          id: 'websiteLink',
+          label: 'Website Link',
+          notRequired: true,
+        },
+      },
+    ]
+
+    return this.renderFields(fields)
+  }
+
+  renderBasicFields() {
+    const fields = [
+      {
+        props: {
+          id: 'userName',
+          label: 'Username',
+        },
+      },
+      {
+        props: {
+          id: 'password',
+          type: 'password',
+          label: 'Password',
+        },
+      },
+    ]
+
+    return this.renderFields(fields)
+  }
+
+  renderSchoolFields() {
+    const { values } = this.state
+    const fields = [
+      {
+        props: {
+          id: 'schoolName',
+          label: 'School Name',
+        },
+      },
+      {
+        props: {
+          id: 'schoolEmail',
+          type: 'email',
+          label: 'School Email',
+        },
+      },
+      {
+        props: {
+          id: 'schoolPhoneNumber',
+          label: 'School Phone Number',
+        },
+        customInput: {
+          element: ReactTelInput,
+          props: {
+            initialValue: values.schoolPhoneNumber || '',
+            flagsImagePath: 'https://abroadwith.imgix.net/app/flags/flags.png',
+            onChange: value => this.handleValueChange('schoolPhoneNumber', value),
+          },
+        },
+      },
+    ]
+
+    return this.renderFields(fields)
+  }
+
+  render() {
+    const { signupStatus } = this.props
+    const { values } = this.state
 
     return (
       <SpinLoader show={signupStatus.loading}>
@@ -182,153 +374,15 @@ export default class SignupForm extends Component {
                   </FormControl>
                 </FormGroup>
               </Col>
+              {this.renderBasicFields()}
 
-              <Col xs={12} sm={6}>
-                <FormGroup
-                  controlId='username'
-                  validationState={this.getValidationState('userName')}
-                >
-                  <ControlLabel>Username*</ControlLabel>
-                  <FormControl
-                    type='text'
-                    value={values.userName || ''}
-                    placeholder='Username'
-                    onChange={event => this.handleValueChange('userName', event.target.value)}
-                  />
-                </FormGroup>
-              </Col>
-              <Col xs={12} sm={6}>
-                <FormGroup
-                  controlId='password'
-                >
-                  <ControlLabel>Password*</ControlLabel>
-                  <FormControl
-                    type='text'
-                    value={values.password || ''}
-                    placeholder='Password'
-                    onChange={event => this.handleValueChange('password', event.target.value)}
-                  />
-                </FormGroup>
-              </Col>
               {values.type === 'SCHOOL' &&
-              <span>
-                <Col xs={12}>
-                  <FormGroup
-                    controlId='schoolName'
-                  >
-                    <ControlLabel>School Name*</ControlLabel>
-                    <FormControl
-                      type='text'
-                      value={values.schoolName || ''}
-                      placeholder='School Name'
-                      onChange={event => this.handleValueChange('schoolName', event.target.value)}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col xs={12} sm={6}>
-                  <FormGroup
-                    controlId='schoolEmail'
-                  >
-                    <ControlLabel>School Email*</ControlLabel>
-                    <FormControl
-                      type='email'
-                      value={values.schoolEmail || ''}
-                      placeholder='School Email'
-                      onChange={event => this.handleValueChange('schoolEmail', event.target.value)}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col xs={12} sm={6}>
-                  <FormGroup
-                    controlId='schoolPhoneNumber'
-                  >
-                    <ControlLabel>School Phone*</ControlLabel>
-                    <ReactTelInput
-                      initialValue={values.schoolPhoneNumber || ''}
-                      onChange={value => this.handleValueChange('schoolPhoneNumber', value)}
-                      flagsImagePath='https://abroadwith.imgix.net/app/flags/flags.png'
-                    />
-                  </FormGroup>
-                </Col>
-              </span>
-            }
-              <Col xs={12} sm={6}>
-                <FormGroup
-                  controlId='contactPersonFirstName'
-                >
-                  <ControlLabel>Contact Person First Name*</ControlLabel>
-                  <FormControl
-                    type='text'
-                    value={values.contactPersonFirstName || ''}
-                    placeholder='Contact Person First Name'
-                    onChange={event => this.handleValueChange('contactPersonFirstName', event.target.value)}
-                  />
-                </FormGroup>
-              </Col>
-              <Col xs={12} sm={6}>
-                <FormGroup
-                  controlId='contactPersonLastName'
-                >
-                  <ControlLabel>Contact Person Last Name*</ControlLabel>
-                  <FormControl
-                    type='text'
-                    value={values.contactPersonLastName || ''}
-                    placeholder='Contact Person Last Name'
-                    onChange={event => this.handleValueChange('contactPersonLastName', event.target.value)}
-                  />
-                </FormGroup>
-              </Col>
-              <Col xs={12} sm={6}>
-                <FormGroup
-                  controlId='contactPersonEmail'
-                >
-                  <ControlLabel>Contact Person Email*</ControlLabel>
-                  <FormControl
-                    type='email'
-                    value={values.contactPersonEmail || ''}
-                    placeholder='Contact Person Email'
-                    onChange={event => this.handleValueChange('contactPersonEmail', event.target.value)}
-                  />
-                </FormGroup>
-              </Col>
-              <Col xs={12} sm={6}>
-                <FormGroup
-                  controlId='contactPersonPhoneNumber'
-                >
-                  <ControlLabel>Contact Person Phone*</ControlLabel>
-                  <ReactTelInput
-                    initialValue={values.contactPersonPhoneNumber || ''}
-                    onChange={value => this.handleValueChange('contactPersonPhoneNumber', value)}
-                    flagsImagePath='https://abroadwith.imgix.net/app/flags/flags.png'
-                  />
-                </FormGroup>
-              </Col>
-              <Col xs={12} sm={6}>
-                <FormGroup
-                  controlId='offeredLanguages'
-                >
-                  <ControlLabel>Offered Languages</ControlLabel>
-                  <Typeahead
-                    multiple
-                    selected={values.offeredLanguages ? values.offeredLanguages : []}
-                    onChange={data => this.handleValueChange('offeredLanguages', data)}
-                    options={availableLanguages}
-                  />
-                </FormGroup>
-              </Col>
-              <Col xs={12} sm={6}>
-                <FormGroup
-                  controlId='websiteLink'
-                >
-                  <ControlLabel>Website Link</ControlLabel>
-                  <FormControl
-                    type='text'
-                    value={values.websiteLink || ''}
-                    placeholder='Website Link'
-                    onChange={event => this.handleValueChange('websiteLink', event.target.value)}
-                  />
-                </FormGroup>
-              </Col>
+                <span>
+                  {this.renderSchoolFields()}
+                </span>
+              }
+
+              {this.renderContactFields()}
             </Row>
           </Panel>
 
@@ -340,6 +394,7 @@ export default class SignupForm extends Component {
               <Col xs={12}>
                 <FormGroup
                   controlId='street'
+                  validationState={this.getValidationState('street')}
                 >
                   <ControlLabel>Address Line 1*</ControlLabel>
                   <FormControl
@@ -366,6 +421,7 @@ export default class SignupForm extends Component {
               <Col xs={12} sm={5}>
                 <FormGroup
                   controlId='city'
+                  validationState={this.getValidationState('city')}
                 >
                   <ControlLabel>City</ControlLabel>
                   <FormControl
@@ -379,6 +435,7 @@ export default class SignupForm extends Component {
               <Col xs={12} sm={4}>
                 <FormGroup
                   controlId='state'
+                  validationState={this.getValidationState('state')}
                 >
                   <ControlLabel>State</ControlLabel>
                   <FormControl
@@ -392,6 +449,7 @@ export default class SignupForm extends Component {
               <Col xs={12} sm={4}>
                 <FormGroup
                   controlId='zipCode'
+                  validationState={this.getValidationState('zipCode')}
                 >
                   <ControlLabel>Postal Code</ControlLabel>
                   <FormControl
@@ -405,6 +463,7 @@ export default class SignupForm extends Component {
               <Col xs={12} sm={4}>
                 <FormGroup
                   controlId='country'
+                  validationState={this.getValidationState('country')}
                 >
                   <ControlLabel>Country</ControlLabel>
                   <Typeahead
