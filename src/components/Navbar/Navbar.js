@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { IndexLink } from 'react-router'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Login, Logo } from 'components'
-import { Modal, Navbar as BootstrapNavbar, Nav, NavItem } from 'react-bootstrap'
+import { Modal, Navbar as BootstrapNavbar, MenuItem, Nav, NavDropdown, NavItem } from 'react-bootstrap'
 import { logout } from 'redux/modules/auth'
 import FontAwesome from 'react-fontawesome'
 import Radium from 'radium'
@@ -70,7 +70,21 @@ export default class Navbar extends Component {
             {jwt &&
               <span style={styles.desktopNavbar}>
                 <Nav navbar pullRight>
-                  {/* Add logged-in UI here */}
+                  <LinkContainer to='/dashboard'>
+                    <NavItem>Dashboard</NavItem>
+                  </LinkContainer>
+                  <LinkContainer to='/manage-courses'>
+                    <NavItem>Manage Courses</NavItem>
+                  </LinkContainer>
+                  <NavDropdown title={jwt.euname} id='nav-dropdown'>
+                    <LinkContainer to='/settings'>
+                      <MenuItem>Settings</MenuItem>
+                    </LinkContainer>
+                    <MenuItem divider />
+                    <MenuItem onSelect={this.handleLogout}>
+                      Logout
+                    </MenuItem>
+                  </NavDropdown>
                 </Nav>
               </span>
             }

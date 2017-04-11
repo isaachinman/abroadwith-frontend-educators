@@ -1,25 +1,27 @@
 // Absolute imports
+import { closeLoginModal } from 'redux/modules/ui/modals'
 import config from 'config.js'
 import jwtDecode from 'jwt-decode'
+import { loadEducatorWithAuth } from 'redux/modules/privateData/educator'
 import moment from 'moment'
 import notification from 'antd/lib/notification'
 import { REHYDRATE } from 'redux-persist/constants'
 import superagent from 'superagent'
 
 // Load previously stored auth
-const LOAD = 'abroadwith/LOAD_AUTH'
-const LOAD_SUCCESS = 'abroadwith/LOAD_AUTH_SUCCESS'
-const LOAD_FAIL = 'abroadwith/LOAD_AUTH_FAIL'
+const LOAD = 'abroadwith-educators/LOAD_AUTH'
+const LOAD_SUCCESS = 'abroadwith-educators/LOAD_AUTH_SUCCESS'
+const LOAD_FAIL = 'abroadwith-educators/LOAD_AUTH_FAIL'
 
 // Login stuff
-const LOGIN = 'abroadwith/LOGIN'
-const LOGIN_SUCCESS = 'abroadwith/LOGIN_SUCCESS'
-const LOGIN_FAIL = 'abroadwith/LOGIN_FAIL'
+const LOGIN = 'abroadwith-educators/LOGIN'
+const LOGIN_SUCCESS = 'abroadwith-educators/LOGIN_SUCCESS'
+const LOGIN_FAIL = 'abroadwith-educators/LOGIN_FAIL'
 
 // Logout stuff
-const LOGOUT = 'abroadwith/LOGOUT'
-const LOGOUT_SUCCESS = 'abroadwith/LOGOUT_SUCCESS'
-const LOGOUT_FAIL = 'abroadwith/LOGOUT_FAIL'
+const LOGOUT = 'abroadwith-educators/LOGOUT'
+const LOGOUT_SUCCESS = 'abroadwith-educators/LOGOUT_SUCCESS'
+const LOGOUT_FAIL = 'abroadwith-educators/LOGOUT_FAIL'
 
 const initialState = {
   loaded: false,
@@ -136,7 +138,7 @@ export function load(jwt) {
 
 }
 
-export function login(email, password, callback) {
+export function login(userName, password, callback) {
 
   const cb = typeof callback === 'function' ? callback : () => {}
 
@@ -148,9 +150,9 @@ export function login(email, password, callback) {
 
       const request = superagent.post(`${config.apiHost}/educators/login`)
 
-      if (email && password) {
+      if (userName && password) {
         request.send({
-          email,
+          userName,
           password,
         })
       }
@@ -168,6 +170,13 @@ export function login(email, password, callback) {
           // Login was successful
           const jwt = body.token
           dispatch({ type: LOGIN_SUCCESS, jwt })
+
+          // Close login modal
+          dispatch(closeLoginModal())
+
+          // Load educator object
+          dispatch(loadEducatorWithAuth(jwt))
+
           cb()
 
         } else {
@@ -184,15 +193,15 @@ export function login(email, password, callback) {
   }
 }
 
-export function facebookLogin(email, facebookToken, callback) {
+export function facebookLogin(userName, facebookToken, callback) {
   return async dispatch => {
-    dispatch(login(email, null, facebookToken, null, callback))
+    dispatch(login(userName, null, facebookToken, null, callback))
   }
 }
 
-export function googleLogin(email, googleToken, callback) {
+export function googleLogin(userName, googleToken, callback) {
   return async dispatch => {
-    dispatch(login(email, null, null, googleToken, callback))
+    dispatch(login(userName, null, null, googleToken, callback))
   }
 }
 

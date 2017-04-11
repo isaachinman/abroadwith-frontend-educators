@@ -40,6 +40,11 @@ export default (store) => {
   // without program flow analysis. These getComponent functions only contain
   // the require.ensure statement, so we are stuck writing them all explicitly.
   // --------------------------------------------------------------------------------
+  const getSettings = (nextState, cb) => {
+    require.ensure([], require => {
+      cb(null, require('../containers/Settings/Settings'))
+    }, 'settings')
+  }
   const getTermsAndConditions = (nextState, cb) => {
     require.ensure([], require => {
       cb(null, require('../containers/TermsAndConditions/TermsAndConditions'))
@@ -70,6 +75,7 @@ export default (store) => {
         <IndexRoute component={Main} />
 
         <Route onEnter={requireLogin}>
+          <Route path='/settings' getComponent={getSettings} />
           {/* Put logged-in routes here */}
           {/* EXAMPLE: <Route path='settings' getComponent={getSettings} /> */}
         </Route>

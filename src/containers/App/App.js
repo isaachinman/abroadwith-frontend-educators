@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import config from 'config'
 import FadeProps from 'fade-props'
 import { Footer, LoadingBar, Navbar } from 'components'
+import { loadEducatorWithAuth } from 'redux/modules/privateData/educator'
 import { logout } from 'redux/modules/auth'
 import { push } from 'react-router-redux'
 import { StyleRoot } from 'radium'
@@ -19,6 +20,7 @@ notification.config({ top: 100 })
 
 @connect(
   state => ({
+    educator: state.privateData.educator,
     footer: state.ui.footer,
     jwt: state.auth.jwt,
     token: state.auth.token,
@@ -27,7 +29,6 @@ notification.config({ top: 100 })
     pushState: push,
   })
 )
-
 export default class App extends Component {
 
   static contextTypes = {
@@ -41,7 +42,12 @@ export default class App extends Component {
   // ------------------------------------------------------------------/
   componentDidMount = () => {
 
-    // Do init stuff here
+    const { educator, dispatch, token } = this.props
+
+    // If auth is present and educator is not loaded, load it now
+    if (!educator.loaded && typeof token === 'string') {
+      dispatch(loadEducatorWithAuth(token))
+    }
 
   }
 
@@ -81,6 +87,7 @@ export default class App extends Component {
 App.propTypes = {
   children: PropTypes.object,
   dispatch: PropTypes.func,
+  educator: PropTypes.object,
   footer: PropTypes.object,
   jwt: PropTypes.object,
   pushState: PropTypes.func,

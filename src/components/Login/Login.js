@@ -20,7 +20,7 @@ export default class Login extends Component {
 
   state = {
     validatedFields: {
-      email: {
+      userName: {
         uiState: null,
       },
       password: {
@@ -41,9 +41,9 @@ export default class Login extends Component {
 
   }
 
-  handleEmailChange = (newValue) => {
+  handleuserNameChange = (newValue) => {
     let newValidationObj = this.state.validatedFields // eslint-disable-line
-    newValidationObj.email.value = newValue
+    newValidationObj.userName.value = newValue
     this.setState({ validatedFields: newValidationObj })
   }
 
@@ -53,11 +53,11 @@ export default class Login extends Component {
     this.setState({ validatedFields: newValidationObj })
   }
 
-  handleEmailLogin = (event) => {
+  handleuserNameLogin = (event) => {
 
     event.preventDefault()
 
-    const { email, password } = this.state.validatedFields
+    const { userName, password } = this.state.validatedFields
     let formIsValid = true
 
     let modifiedValidation = this.state.validatedFields // eslint-disable-line
@@ -86,7 +86,7 @@ export default class Login extends Component {
 
     if (formIsValid) {
       const { dispatch } = this.props
-      dispatch(authActions.login(email.value, password.value, null, null, this.closeModal))
+      dispatch(authActions.login(userName.value, password.value, null, null, this.closeModal))
     } else {
       return false
     }
@@ -101,7 +101,7 @@ export default class Login extends Component {
     } = this.props
 
     const {
-      email,
+      userName,
       password,
     } = this.state.validatedFields
 
@@ -117,13 +117,13 @@ export default class Login extends Component {
           </Row>
         }
 
-        <Form horizontal onSubmit={this.handleEmailLogin}>
+        <Form horizontal onSubmit={this.handleuserNameLogin}>
 
-          <FormGroup controlId='formHorizontalEmail' validationState={email.uiState}>
+          <FormGroup controlId='formHorizontaluserName' validationState={userName.uiState}>
             <Col xs={12} sm={compact ? 12 : 8} smOffset={compact ? 0 : 2}>
               <InputGroup>
                 <InputGroup.Addon><FontAwesome name='at' /></InputGroup.Addon>
-                <FormControl required type='email' placeholder='Email' onChange={event => this.handleEmailChange(event.target.value)} />
+                <FormControl required type='text' placeholder='Username' onChange={event => this.handleuserNameChange(event.target.value)} />
               </InputGroup>
             </Col>
           </FormGroup>

@@ -12,6 +12,8 @@ import Express from 'express'
 import http from 'http'
 import httpProxy from 'http-proxy'
 import jwtDecode from 'jwt-decode'
+import { load as loadAuth } from 'redux/modules/auth'
+import { loadEducatorWithAuth } from 'redux/modules/privateData/educator'
 import logger from 'helpers/logger'
 import path from 'path'
 import PrettyError from 'pretty-error'
@@ -103,7 +105,7 @@ app.use((req, res) => {
 
   // Uncomment these lines to set a test token
   /* eslint-disable */
-  // const JWT = 'eyJhbGciOiJSUzUxMiJ9.eyJpc3MiOiJhYnJvYWR3aXRoIGFkbWluIHNlcnZlciIsImF1ZCI6ImFicm9hZHdpdGggYWRtaW4gYXBpIiwianRpIjoiNlEwb0w1REZhSHNTSG5KLVVuOW4xQSIsImlhdCI6MTQ5MDEwOTUzOSwiZXhwIjoxNDkwNzE0MzM5LCJuYmYiOjE0OTAxMDk0MTksInN1YiI6IlVTRVIiLCJlbWFpbCI6Im4yNTEwODIyQG12cmh0LmNvbSIsIm5hbWUiOiJuMjUxMDgyMkBtdnJodC5jb20iLCJyaWQiOjEwMDYyNiwiY2JrIjozLCJ3aG9zdCI6ZmFsc2V9.Ugi1n629Xjp0-oH_eGelHlSjRQ8VwmF_wQkwQHWwcH9ZnzJDevOX2maTHTiGbykErQrCk3DSUARHvt_f1wCsMquTJawBLPhA2P97HSb8dt2NU47wWbYmgVkfGYnI8O5bOVpmzLE0uQNcJdQdfOqZchnd_MmWhupfVG5IekWvaZYcfWM-URUlrJh2bAL5AVw4wcm5lY5o6DwJ7ATgbc8hXpzNzV8hdqOQRiGCTAP3J_sohqvQSOUTk4t2eQjQfhnXUxA7fqUhmduZL8jvhp9Bv1eL7n8gaOcZl165G5D1AGuXQx8-6QykxexL-LQzazaG_sH0GCu6BenOcnXXvWIFgA'
+  // const JWT = 'eyJhbGciOiJSUzUxMiJ9.eyJpc3MiOiJhYnJvYWR3aXRoIGFkbWluIHNlcnZlciIsImF1ZCI6ImFicm9hZHdpdGggYWRtaW4gYXBpIiwianRpIjoiRzY2VmxYaDlwQmpfdzRGWGlUbUtzUSIsImlhdCI6MTQ5MTkxNTU1OCwiZXhwIjoxNDkyNTIwMzU4LCJuYmYiOjE0OTE5MTU0MzgsInN1YiI6IkVEVUNBVE9SIiwicmlkIjo3NSwiZXR5cGUiOiJTQ0hPT0wiLCJldW5hbWUiOiJ0ZXN0X3NjaG9vbCIsImVjdXJyIjoiRVVSIiwiZWFwcHIiOnRydWV9.b1aVFOoy-Xt9g3-AFhLvxVwHUV7rhnH736lNRoG8oQJjGUuns8gkER7MvFra342f_rqZG-ODlXmnbbl0Luc-jmxH1OfG-asH17AyrtjQhlNMuEhoB6hu2Z5bVVNRRb4vPcjGRkvyKOxzOtZK2agMCn9q7egmJDlfKK9UTnE4z7UVsDJOnaYqMj-imS81YWVgO1C_36ue4eqf6rxmSCJnDfyNzrykYJfUDEFvcFz8ecCmsENikXcktUSLiTm52mXZGfp_Im2T9IggVNiuf0m4cw1oRFG2fQINqw99ehpl70XzrcObHKq-QuMkqSJbQkgQ-w7w7cWXweSSgh_4fbZLqg'
   // const expiryDate = new Date()
   // expiryDate.setDate(expiryDate.getDate() + 7)
   // res.cookie('access_token', JWT, { maxAge: 604800000, expires: expiryDate })
@@ -189,7 +191,7 @@ app.use((req, res) => {
 
     // If user has an access_token cookie, log them in before rendering the page
     store.dispatch(loadAuth(req.cookies.access_token)) // synchronous action
-    initProcedure.push(dispatch(loadUserWithAuth(req.cookies.access_token)))
+    initProcedure.push(dispatch(loadEducatorWithAuth(req.cookies.access_token)))
 
   }
 
