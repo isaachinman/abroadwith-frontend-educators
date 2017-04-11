@@ -19,15 +19,14 @@ export default class FormInput extends Component {
         validationState={validationState}
       >
         <ControlLabel>{label}{!notRequired && <span>*</span>}</ControlLabel>
-        {!this.props.children
-          ? <FormControl
-                type={type}
-                value={value}
-                placeholder={label}
-                onChange={onChange}
-              />
-          : { ...this.props.children }
-        }
+        {!this.props.children ?
+          <FormControl
+            type={type}
+            value={value}
+            placeholder={label}
+            onChange={onChange}
+          /> :
+          { ...this.props.children }}
       </FormGroup>
     )
   }
@@ -39,7 +38,7 @@ FormInput.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string || PropTypes.array,
   onChange: PropTypes.func,
-  validationState: PropTypes.func,
+  validationState: PropTypes.string,
   customInput: PropTypes.object,
   children: PropTypes.element,
   notRequired: PropTypes.bool,

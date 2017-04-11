@@ -2,8 +2,6 @@ import { validateExists } from 'utils/validation'
 
 export default (password, options) => {
 
-  console.log(options)
-
   let validationMessages = [] // eslint-disable-line
   let validity = true
 

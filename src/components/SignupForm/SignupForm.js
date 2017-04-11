@@ -92,6 +92,22 @@ export default class SignupForm extends Component {
   }
 
   /**
+  * Check if the passed field is valid or not, based on the rules stored in fieldValidations
+  * Returns error, sucess or null
+  * @param {String} field - Id of the field to be validated
+  */
+  getValidationState(field) {
+    const { formErrors, values } = this.state
+    const newValues = this.transformObject(values)
+
+    if (!Object.keys(formErrors).length || newValues[field] === null || formErrors[field] === undefined) {
+      return null
+    }
+
+    return formErrors.hasOwnProperty(field) && formErrors[field] === true ? 'error' : 'success'
+  }
+
+  /**
   * Check if the object has object children and returns a plain object
   * @param {Object} obj - Object to be transformed
   */
@@ -110,17 +126,6 @@ export default class SignupForm extends Component {
     return val === Object(val) && !Array.isArray(val) && val !== null
   }
 
-  getValidationState(field) {
-    const { formErrors, values } = this.state
-    const newValues = this.transformObject(values)
-
-    if (!Object.keys(formErrors).length || newValues[field] === null || formErrors[field] === undefined) {
-      return null
-    }
-
-    return formErrors.hasOwnProperty(field) && formErrors[field] === true ? 'error' : 'success'
-  }
-
   handleAddressValueChange = (field, value) => {
     const newAddress = this.state.values.address
     newAddress[field] = value
@@ -128,12 +133,10 @@ export default class SignupForm extends Component {
   }
 
   handleValueChange = (field, value, params) => {
+    const input = params && params.childValue ? params.childValue : field
     const newValues = this.state.values
     newValues[field] = value
 
-    let input = params && params.childValue ? params.childValue : field
-
-    console.log(this.handleInputValidation(input), input)
     this.setState({
       values: newValues,
       formErrors: Object.assign(
@@ -145,7 +148,6 @@ export default class SignupForm extends Component {
   }
 
   handleInputValidation(field, values = this.state.values) {
-    // Check if there is some transformObject inside the values and store its key
     const newValues = this.transformObject(values)
 
     return fieldValidations.hasOwnProperty(field)
@@ -153,13 +155,33 @@ export default class SignupForm extends Component {
       && { [field]: !fieldValidations[field](newValues[field]) }
   }
 
-  handleSignup = () => {
+  isFormValid() {
+    const newValues = this.transformObject(this.state.values)
+    const newValidations = Object.assign({}, fieldValidations)
 
+    if (newValues.type === 'TUTOR') {
+      delete newValidations.schoolEmail
+      delete newValidations.schoolName
+      delete newValidations.schoolPhoneNumber
+    }
+
+    return !Object.keys(newValidations)
+      .some(field => !newValidations[field](newValues[field] || ''))
+  }
+
+  handleSignup = () => {
     const signupObject = Object.assign({}, this.state.values)
 
-    // Validate and process signup data here
-
     // If educator is type TUTOR, clear any school fields
+    if (signupObject.type === 'TUTOR') {
+      signupObject.schoolEmail = ''
+      signupObject.schoolName = ''
+      signupObject.schoolPhoneNumber = ''
+
+      this.setState({
+        values: signupObject,
+      })
+    }
 
     // Flatten offeredLanguages
     signupObject.offeredLanguages = this.state.values.offeredLanguages.map(lang => lang.value)
@@ -194,7 +216,6 @@ export default class SignupForm extends Component {
           })
         }
       })
-
   }
 
   /**
@@ -260,6 +281,7 @@ export default class SignupForm extends Component {
         customInput: {
           element: ReactTelInput,
           props: {
+            initialValue: values.contactPersonPhoneNumber,
             flagsImagePath: 'https://abroadwith.imgix.net/app/flags/flags.png',
             onChange: value => this.handleValueChange('contactPersonPhoneNumber', value),
           },
@@ -381,7 +403,6 @@ export default class SignupForm extends Component {
                   {this.renderSchoolFields()}
                 </span>
               }
-
               {this.renderContactFields()}
             </Row>
           </Panel>
@@ -423,7 +444,7 @@ export default class SignupForm extends Component {
                   controlId='city'
                   validationState={this.getValidationState('city')}
                 >
-                  <ControlLabel>City</ControlLabel>
+                  <ControlLabel>City*</ControlLabel>
                   <FormControl
                     type='text'
                     value={values.address.city || ''}
@@ -437,7 +458,7 @@ export default class SignupForm extends Component {
                   controlId='state'
                   validationState={this.getValidationState('state')}
                 >
-                  <ControlLabel>State</ControlLabel>
+                  <ControlLabel>State*</ControlLabel>
                   <FormControl
                     type='text'
                     value={values.address.state || ''}
@@ -451,7 +472,7 @@ export default class SignupForm extends Component {
                   controlId='zipCode'
                   validationState={this.getValidationState('zipCode')}
                 >
-                  <ControlLabel>Postal Code</ControlLabel>
+                  <ControlLabel>Postal Code*</ControlLabel>
                   <FormControl
                     type='text'
                     value={values.address.zipCode || ''}
@@ -465,7 +486,7 @@ export default class SignupForm extends Component {
                   controlId='country'
                   validationState={this.getValidationState('country')}
                 >
-                  <ControlLabel>Country</ControlLabel>
+                  <ControlLabel>Country*</ControlLabel>
                   <Typeahead
                     selected={values.address.country ? [Countries[values.address.country]] : []}
                     onChange={data => this.handleAddressValueChange('country', data.length > 0 ? data[0].value : null)}
@@ -480,7 +501,7 @@ export default class SignupForm extends Component {
             </Row>
             <Row>
               <Col xs={12}>
-                <Button bsStyle='primary' onClick={this.handleSignup}>Sign up</Button>
+                <Button bsStyle='primary' onClick={this.handleSignup} disabled={!this.isFormValid()}>Sign up</Button>
               </Col>
             </Row>
           </Panel>
