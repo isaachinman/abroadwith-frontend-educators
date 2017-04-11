@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { Button, Col, ControlLabel, FormControl, FormGroup, Panel, Row } from 'react-bootstrap'
+import config from 'config'
 import { connect } from 'react-redux'
 import Countries from 'data/constants/Countries'
 import { login } from 'redux/modules/auth'
@@ -39,7 +40,6 @@ const fieldValidations = {
   auth: state.auth,
   signupStatus: state.signupStatus,
 }))
-
 export default class SignupForm extends Component {
 
   state = {
@@ -93,7 +93,7 @@ export default class SignupForm extends Component {
 
   /**
   * Check if the passed field is valid or not, based on the rules stored in fieldValidations
-  * Returns error, sucess or null
+  * Returns error, success or null
   * @param {String} field - Id of the field to be validated
   */
   getValidationState(field) {
@@ -174,9 +174,9 @@ export default class SignupForm extends Component {
 
     // If educator is type TUTOR, clear any school fields
     if (signupObject.type === 'TUTOR') {
-      signupObject.schoolEmail = ''
-      signupObject.schoolName = ''
-      signupObject.schoolPhoneNumber = ''
+      signupObject.schoolEmail = null
+      signupObject.schoolName = null
+      signupObject.schoolPhoneNumber = null
 
       this.setState({
         values: signupObject,
@@ -282,7 +282,7 @@ export default class SignupForm extends Component {
           element: ReactTelInput,
           props: {
             initialValue: values.contactPersonPhoneNumber,
-            flagsImagePath: 'https://abroadwith.imgix.net/app/flags/flags.png',
+            flagsImagePath: `${config.img}/app/flags/flags.png`,
             onChange: value => this.handleValueChange('contactPersonPhoneNumber', value),
           },
         },
@@ -360,7 +360,7 @@ export default class SignupForm extends Component {
           element: ReactTelInput,
           props: {
             initialValue: values.schoolPhoneNumber || '',
-            flagsImagePath: 'https://abroadwith.imgix.net/app/flags/flags.png',
+            flagsImagePath: `${config.img}/app/flags/flags.png`,
             onChange: value => this.handleValueChange('schoolPhoneNumber', value),
           },
         },
