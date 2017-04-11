@@ -1,5 +1,5 @@
 import config from 'config'
-import { darkBlue, warmPurple } from 'styles/colors'
+import { darkBlue, headerBluePurple, warmPurple } from 'styles/colors'
 
 export default {
   button: {
@@ -13,14 +13,15 @@ export default {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(${config.img}/app/hero/hero_v2_homepage_large.jpg)`,
+    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(${config.img}/app/hero/hero_v2_educator_homepage.jpg)`,
     '@media (max-width: 1000px)': {
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(${config.img}/app/hero/hero_v2_homepage_large.jpg?w=1000)`,
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(${config.img}/app/hero/hero_v2_educator_homepage.jpg?w=1000)`,
     },
     '@media (max-width: 600px)': {
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(${config.img}/app/hero/hero_v2_homepage_large.jpg?w=600)`,
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(${config.img}/app/hero/hero_v2_educator_homepage.jpg?w=600)`,
     },
     backgroundSize: 'cover',
+    backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundColor: darkBlue,
     '@media (max-width: 515px)': {
@@ -39,7 +40,7 @@ export default {
   heroTextContent: {
     maxWidth: 600,
     margin: '0 auto',
-    textShadow: '1px 2px 2px rgba(0, 0, 0, .2)',
+    textShadow: '1px 2px 2px rgba(0, 0, 0, .3)',
   },
   heroInputRow: {
     position: 'absolute',
@@ -48,11 +49,6 @@ export default {
     width: '100%',
     textAlign: 'center',
   },
-  immersionPanel: {
-    maxWidth: 400,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
   relative: {
     position: 'relative',
   },
@@ -60,25 +56,18 @@ export default {
     textAlign: 'center',
   },
   paddedGrid: {
-    padding: '100px 15px 40px 15px',
+    padding: '30px 15px 40px 15px',
+    marginBottom: 50,
   },
-  immersionDescription: {
-    minHeight: 160,
+  stepImg: {
+    maxWidth: '100%',
+    width: 'calc(100% - 20px)',
+    margin: 10,
   },
-  immersionBtn: {
-    color: 'white',
-    border: 'none',
-    padding: '3px 15px',
-  },
-  hostBtnRow: {
-    color: 'white',
-    textAlign: 'center',
-    padding: '20px 0',
-  },
-  hostBtn: {
-    color: 'white',
-    border: 'none',
-    padding: '3px 15px',
-    margin: '5px 10px',
+  stepTitle: {
+    textIndent: '-1em',
+    paddingLeft: '1em',
+    minHeight: 48,
+    color: headerBluePurple,
   },
 }

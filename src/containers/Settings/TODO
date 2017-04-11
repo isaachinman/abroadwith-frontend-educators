@@ -1,0 +1,25 @@
+Settings Page
+
+  Endpoints:
+    https://api.test-abroadwith.com/swagger/index.html#/educators
+    https://api.test-abroadwith.com/swagger/index.html#/payout_methods
+
+  Contact Info
+    -New form
+
+  Address
+    -Reuse as much as possible from signup address form
+
+  Description
+    -Two simple text fields for Description and Website link
+    -Copy/paste single-image dropzone from main platform code
+
+  Calendar
+    -Use react-big-calendar
+    -Not going to be possible to have a year view, don't worry about it
+
+  Notifications
+    -Two simple checkboxes (or use ant design toggles, like notifications in Settings on main platform)
+
+  Payments
+    -Replicate the Bank Account and PayPal forms from Educator Platform V1

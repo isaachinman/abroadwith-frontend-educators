@@ -1,0 +1,14 @@
+Dashboard (ManageStudents) Page
+
+  Endpoints:
+    https://api.test-abroadwith.com/swagger/index.html#/course_bookings
+
+  Requirements:
+    -Three tabs (Incoming, Current, Past)
+    -Filterable by student name
+    -Each table sortable by some/all columns
+
+  Methodology:
+    -Use reactable [suggestion]
+    -Set up redux actions for student approval/decline/cancellation
+    -Use PopConfirm from ant design for important actions

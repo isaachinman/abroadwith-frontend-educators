@@ -24,9 +24,9 @@ export default class Footer extends Component {
           <div style={styles.topRow}>
             <Grid>
               <Link to='/terms' style={styles.topLink}>Terms and conditions</Link>
-              <Link to='/' style={styles.topLink}>Privacy</Link>
-              <Link to='/' style={styles.topLink}>Contact</Link>
-              <Link to='/' style={styles.topLink}>About</Link>
+              <Link to='/privacy' style={styles.topLink}>Privacy</Link>
+              <a href='//www.abroadwith.com/contact-us' style={styles.topLink}>Contact</a>
+              <a href='//www.abroadwith.com/about' style={styles.topLink}>About</a>
             </Grid>
           </div>
         }
