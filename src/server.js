@@ -149,7 +149,11 @@ app.use((req, res) => {
 
   const renderFunction = () => match({ history, routes: getRoutes(store), location: req.originalUrl }, (error, redirectLocation, renderProps) => {
 
-    if (error) {
+    if (redirectLocation) {
+
+      res.redirect(redirectLocation.pathname + redirectLocation.search)
+
+    } else if (error) {
 
       console.error('ROUTER ERROR:', pretty.render(error))
       res.status(500)

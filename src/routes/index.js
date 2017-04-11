@@ -75,14 +75,14 @@ export default (store) => {
         <IndexRoute component={Main} />
 
         <Route onEnter={requireLogin}>
-          <Route path='/settings' getComponent={getSettings} />
+          <Route path='settings' getComponent={getSettings} />
           {/* Put logged-in routes here */}
           {/* EXAMPLE: <Route path='settings' getComponent={getSettings} /> */}
         </Route>
 
-        <Route path='/signup' component={SignupPage} />
-        <Route path='/terms' getComponent={getTermsAndConditions} />
-        <Route path='/privacy' getComponent={getPrivacyPolicy} />
+        <Route path='signup' component={SignupPage} />
+        <Route path='terms' getComponent={getTermsAndConditions} />
+        <Route path='privacy' getComponent={getPrivacyPolicy} />
 
       </Route>
 
