@@ -107,17 +107,6 @@ export default class Login extends Component {
 
     return (
       <div style={styles.loginPanel}>
-
-        <Row>
-          <Col xs={12} sm={compact ? 12 : 8} smOffset={compact ? 0 : 2} style={styles.dividerContainer}>
-            <div style={styles.divider}>
-              <span style={styles.dividerText}>
-                or
-              </span>
-            </div>
-          </Col>
-        </Row>
-
         {loginStatus.error &&
           <Row>
             <Col sm={compact ? 12 : 4} smOffset={compact ? 0 : 4}>

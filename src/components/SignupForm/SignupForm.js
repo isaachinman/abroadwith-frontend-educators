@@ -34,7 +34,6 @@ const fieldValidations = {
   country: (value) => value.length === 2,
 }
 
-
 @connect(state => ({
   auth: state.auth,
   signupStatus: state.signupStatus,
