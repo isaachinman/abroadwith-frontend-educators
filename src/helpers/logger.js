@@ -10,8 +10,8 @@ const date = moment().format('YYYY-MM-DD')
 const s3_stream = new S3StreamLogger({
   bucket: 'abroadwith-logs',
   folder: `frontend/${date}`,
-  access_key_id: '***REMOVED***',
-  secret_access_key: '***REMOVED***',
+  access_key_id: process.env.aws.accessKeyId,
+  secret_access_key: process.env.aws.secretAccessKey,
   name_format: `abroadwith_frontend_logs_${date}_%H:%M.log`,
   rotate_every: 3600000, // Rotates every hour
   config: {

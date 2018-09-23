@@ -9,8 +9,8 @@ var AWS = require('aws-sdk')
 
 var s3 = new AWS.S3({
   region:'eu-central-1',
-  accessKeyId: '***REMOVED***',
-  secretAccessKey: '***REMOVED***'
+  accessKeyId: process.env.aws.accessKeyId,
+  secretAccessKey: process.env.aws.secretAccessKey
 })
 
 var uploadImage = function(image_file,image_key,options,callback){
